@@ -15,6 +15,7 @@ public class MainFrame extends JFrame {
     private JButton jbtnClear = new JButton("Clear");
     private JButton jbtnExit = new JButton("Go back");
     private JPanel jpn = new JPanel(new GridLayout(4, 3, 1, 1));
+    private int data[] = new int [10];
     private Container cp;
 
     public MainFrame(LoginFrame lg) {
@@ -23,6 +24,7 @@ public class MainFrame extends JFrame {
     }
 
     private void init() {
+        Random ran = new Random();
         screenW = dim.width;
         screenH = dim.height;
         this.setBounds(screenW / 2 - frmW / 2, screenH / 2 - frmH / 2, frmW, frmH);
@@ -38,12 +40,20 @@ public class MainFrame extends JFrame {
         cp.add(jtx, BorderLayout.NORTH);
         cp.add(jpn, BorderLayout.CENTER);
         jtx.setEditable(false);
+
+        for(int i = 0;i<10;i++){
+            data[i] = ran.nextInt(10);
+            for(int j = 0;j<i;j++){
+                if(data[i]==data[j]){
+                    i--;
+                    break;
+                }
+            }
+        }
+
         for (int i = 0; i < 10; i++) {
             jbtn[i] = new JButton();
-            jpn.add(jbtn[i]);
-            int x = new Random().nextInt(10);
-            jbtn[i].setText(Integer.toString(x));
-
+            jbtn[i].setText(Integer.toString(data[i]));
             //control
             jbtn[i].addActionListener(new ActionListener() {
                 @Override
@@ -52,7 +62,7 @@ public class MainFrame extends JFrame {
                     jtx.setText(jtx.getText() + tmp.getText());
                 }
             });
-
+            jpn.add(jbtn[i]);
         }
         jpn.add(jbtnExit);
         jpn.add(jbtnClear);
